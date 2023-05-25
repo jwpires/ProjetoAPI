@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
-import { emit } from "process";
+import { CriaUsuarioDTO } from "./dto/usuario.dto";
 import { Usuario } from "./usuario.class";
 import { UsuariosArmazenados } from "./usuario.dm";
 
@@ -17,25 +17,18 @@ export class UsuarioController{
 
 
     @Post()    
-    async criaUsuario(@Body() dadosUsuario: Usuario){
+    async criaUsuario(@Body() dadosUsuario: CriaUsuarioDTO){
        
-        var test = new Usuario(dadosUsuario.nome,dadosUsuario.idade,dadosUsuario.cidade,dadosUsuario.email,dadosUsuario.telefone,dadosUsuario.senha);
-        var retorno = test.validarUsuario();
+        var usuario = new Usuario(dadosUsuario.nome,dadosUsuario.idade,dadosUsuario.cidade,dadosUsuario.email,dadosUsuario.telefone,dadosUsuario.senha);
+        
         var retornoUsuario;
-
-        if(retorno.length > 0){
-            retornoUsuario={
-                retorno,
-                status:'Usuário não foi criado'
-            }
+            
+        this.clsUsuariosArmazenados.AdicionarUsuario(usuario);
+        retornoUsuario={
+            dadosUsuario,
+            status:'Usuário Criado'
         }
-        else{
-            this.clsUsuariosArmazenados.AdicionarUsuario(test);
-            retornoUsuario={
-                dadosUsuario,
-                status:'Usuário Criado'
-            }
-        }
+    
         
         return retornoUsuario;
     }
