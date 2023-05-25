@@ -32,7 +32,7 @@ export class Usuario{
             retorno.push("Senha inválida ou vazia");
         }
         if (this.idade == null){
-            retorno.push("Senha inválida ou vazia");
+            retorno.push("Idade inválida ou vazia");
         }
         return retorno;
     }
