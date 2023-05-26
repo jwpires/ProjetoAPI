@@ -14,7 +14,6 @@ export class Usuario{
         this.#senha = senha;
     }
 
-    
     get senha(){
         return '***********'
     }
