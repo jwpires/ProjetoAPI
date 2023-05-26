@@ -5,9 +5,8 @@ import { UsuariosArmazenados } from "./usuario.dm";
 
 @Controller('/usuarios')
 export class UsuarioController{
-    clsUsuariosArmazenados: UsuariosArmazenados; 
-    constructor(){
-        this.clsUsuariosArmazenados = new UsuariosArmazenados();        
+    constructor(private clsUsuariosArmazenados: UsuariosArmazenados){
+             
     }
 
     @Get()

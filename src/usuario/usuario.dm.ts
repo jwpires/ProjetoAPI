@@ -1,5 +1,7 @@
+import { Injectable } from "@nestjs/common";
 import { Usuario } from "./usuario.class";
 
+@Injectable()
 export class UsuariosArmazenados{
     #usuarios = [];    
 
