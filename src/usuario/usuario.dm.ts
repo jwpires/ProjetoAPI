@@ -1,15 +1,22 @@
 import { Injectable } from "@nestjs/common";
-import { Usuario } from "./usuario.class";
+import { UsuarioEntity } from "./usuario.entity";
 
 @Injectable()
 export class UsuariosArmazenados{
-    #usuarios = [];    
+    #usuarios: UsuarioEntity[] = [];    
 
-    AdicionarUsuario(usuario: Usuario){
+    AdicionarUsuario(usuario: UsuarioEntity){
         this.#usuarios.push(usuario);
     }
 
     get Usuarios(){        
         return this.#usuarios;
+    }
+
+    async validaEmail(email: string){
+        const possivelUsuario = this.#usuarios.find(
+            usuario => usuario.email === email  
+        );
+        return (possivelUsuario !== undefined);
     }
 }
