@@ -4,6 +4,7 @@ import { UsuarioEntity } from "./usuario.entity";
 import { UsuariosArmazenados } from "./usuario.dm";
 import {v4 as uuid} from 'uuid';
 import { listaUsuarioDTO } from "./dto/listaUsuario.dto";
+import { AlteraUsuarioDTO } from "./dto/atualizaUsuario.dto";
 
 @Controller('/usuarios')
 export class UsuarioController{
@@ -43,4 +44,12 @@ export class UsuarioController{
     }
 
     
+    @Put('/:id')
+    async atualizaUsuario(@Param('id') id: string, @Body() novosDados: AlteraUsuarioDTO){
+        const usuarioAtualizado = await this.clsUsuariosArmazenados.atualizaUsuario(id, novosDados);
+        return {
+            usuario: usuarioAtualizado,
+            message: 'Usuário atualizado'
+        }
+    }
 }
