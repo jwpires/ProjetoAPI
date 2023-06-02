@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { CriaUsuarioDTO } from "./dto/usuario.dto";
 import { UsuarioEntity } from "./usuario.entity";
 import { UsuariosArmazenados } from "./usuario.dm";
@@ -50,6 +50,15 @@ export class UsuarioController{
         return {
             usuario: usuarioAtualizado,
             message: 'Usuário atualizado'
+        }
+    }
+
+    @Delete('/:id')
+    async removeUsuario(@Param('id') id: string){
+        const usuarioRemovido = await this.clsUsuariosArmazenados.removeUsuario(id);
+        return {
+            usuario: usuarioRemovido,
+            message: 'Usuário removido'
         }
     }
 }
