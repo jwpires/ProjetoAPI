@@ -59,6 +59,40 @@ export class ProdutoController{
         return listaRetorno;
     }
 
+    @Get('tam-:tamanho')
+    async RetornoByTamanho(@Param('tamanho') param: string){    
+        const produtosListados = await this.clsProdutosArmazenados.ProdutosByTamanho(param);
+        
+        const listaRetorno = produtosListados.map(
+            produto => new listaProdutoDTO(
+                produto.id,
+                produto.nome, 
+                produto.estoque,
+                produto.valor
+            )
+        );
+        
+        
+        return listaRetorno;
+    }
+
+    @Get('cor-:cor')
+    async RetornoByCor(@Param('cor') param: string){    
+        const produtosListados = await this.clsProdutosArmazenados.ProdutosByCor(param);
+        
+        const listaRetorno = produtosListados.map(
+            produto => new listaProdutoDTO(
+                produto.id,
+                produto.nome, 
+                produto.estoque,
+                produto.valor
+            )
+        );
+        
+        
+        return listaRetorno;
+    }
+
     @Get('marca-:marca')
     async RetornoByMarca(@Param('marca') marca: string){    
         const produtosListados = await this.clsProdutosArmazenados.ProdutosByMarca(marca);

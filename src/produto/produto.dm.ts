@@ -56,6 +56,30 @@ export class ProdutosArmazenados{
         return produto;
     }
 
+    async ProdutosByTamanho(tamanho: string){
+        const produto = this.#produtos.filter(
+            prodSalvo => prodSalvo.medidas.includes(tamanho)
+        );
+
+        if(!produto){
+            throw new Error('Produto não encontrado');
+        }
+
+        return produto;
+    }
+
+    async ProdutosByCor(cor: string){
+        const produto = this.#produtos.filter(
+            prodSalvo => prodSalvo.cor.includes(cor)
+        );
+
+        if(!produto){
+            throw new Error('Produto não encontrado');
+        }
+
+        return produto;
+    }
+
     async atualizaProduto(id: string, dadosAtualizacao: Partial<ProdutoEntity>){
         const produto = this.buscaPorID(id);
 
