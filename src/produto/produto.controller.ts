@@ -56,7 +56,7 @@ export class ProdutoController{
         );
         
         
-        return listaRetorno;
+        return produtosListados;
     }
 
     @Get('tam-:tamanho')
@@ -147,7 +147,7 @@ export class ProdutoController{
         }
     }
 
-    @Put('estoque/add:qtde-:id')
+    @Put('estoque/add:qtde/:id')
     async adicionaEstoque(@Param('id') id: string, @Param('qtde') qtde: number){
         const produtoAtualizado = await this.clsProdutosArmazenados.aumentaEstoque(id, qtde);
         return {
@@ -156,7 +156,7 @@ export class ProdutoController{
         }
     }
 
-    @Put('estoque/rem:qtde-:id')
+    @Put('estoque/rem:qtde/:id')
     async removeEstoque(@Param('id') id: string, @Param('qtde') qtde: number){
         const produtoAtualizado = await this.clsProdutosArmazenados.abaixaEstoque(id, qtde);
         return {

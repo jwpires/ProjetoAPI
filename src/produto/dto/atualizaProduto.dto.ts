@@ -21,11 +21,11 @@ export class AlteraProdutoDTO{
 
     @IsOptional()
     @IsArray()
-    medidas: string[] = [];
+    medidas: string[];
     
     @IsOptional()
     @IsArray()
-    cor: string[] = []; 
+    cor: string[] ; 
     
     @IsOptional()
     @IsString()
