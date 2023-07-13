@@ -1,19 +1,23 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Marca } from 'src/marca/marca.entity';
+import { DataSource } from 'typeorm';
 
-@Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'www.db4free.net',
-      port: 3306,
-      username: 'projetoapi',
-      password: 'ProjetoAPI@',
-      database: 'projetoapi',
-      entities: [Marca],
-      synchronize: true, 
-    }),
-  ],
-})
-export class AppModule {}
+export const databaseProviders = [
+  {
+    provide: 'DATA_SOURCE',
+    useFactory: async () => {
+      const dataSource = new DataSource({
+        type: 'mysql',
+        host: 'localhost',
+        port: 3306,
+        username: 'root',
+        password: 'admin',
+        database: 'projetoapi',
+        entities: [
+            __dirname + '/../**/*.entity{.ts,.js}',
+        ],
+        synchronize: true,
+      });
+
+      return dataSource.initialize();
+    },
+  },
+];
