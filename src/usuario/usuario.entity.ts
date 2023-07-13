@@ -1,3 +1,4 @@
+
 export class UsuarioEntity{
     id: string;
     nome: string;
@@ -5,7 +6,9 @@ export class UsuarioEntity{
     cidade: string;
     email: string;
     telefone: string;
-    #senha: string; 
+    senha: string; 
+
+
     constructor(id:string,nome: string,idade: BigInteger,cidade: string,email: string,telefone: string,senha: string){
         this.id = id;
         this.nome = nome;
@@ -13,15 +16,9 @@ export class UsuarioEntity{
         this.cidade = cidade;
         this.email = email;
         this.telefone = telefone;
-        this.#senha = senha;
+        this.senha = senha;
     }
 
-    get senha(){
-        return '***********'
-    }
-    set senha(senhaNova){
-        this.#senha = senhaNova;
-    }
-
+   
 
 }

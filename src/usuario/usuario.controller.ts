@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { CriaUsuarioDTO } from "./dto/usuario.dto";
 import { UsuarioEntity } from "./usuario.entity";
 import { UsuariosArmazenados } from "./usuario.dm";
 import {v4 as uuid} from 'uuid';
 import { listaUsuarioDTO } from "./dto/listaUsuario.dto";
 import { AlteraUsuarioDTO } from "./dto/atualizaUsuario.dto";
+import {  Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 
 @Controller('/usuarios')
 export class UsuarioController{
