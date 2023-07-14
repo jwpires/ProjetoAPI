@@ -12,4 +12,21 @@ export class MarcaService {
   async listar(): Promise<Marca[]> {
     return this.marcaRepository.find();
   }
+
+  async inserir(): Promise<void>{
+    
+  }
+
+  localizarID(id: string): Promise<Marca> {
+    return this.marcaRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async remover(id: string): Promise<void> {
+    const user = await this.localizarID(id);
+    await this.marcaRepository.remove(user);
+  }
 }
