@@ -1,5 +1,5 @@
 import { Controller, Delete, Get, Param } from "@nestjs/common";
-import { Marca } from "./marca.entity";
+import { MARCA } from "./marca.entity";
 import { MarcaService } from "./marca.service";
 
 @Controller('/marca')
@@ -9,13 +9,13 @@ export class MarcaController{
     }
 
     @Get('listar')
-    async listar(): Promise<Marca[]>{
+    async listar(): Promise<MARCA[]>{
         return this.marcaService.listar();
     }
 
     
     @Get('ID-:id')
-    async listarID(@Param('id') id: string): Promise<Marca>{
+    async listarID(@Param('id') id: string): Promise<MARCA>{
         return this.marcaService.localizarID(id);
     }
 

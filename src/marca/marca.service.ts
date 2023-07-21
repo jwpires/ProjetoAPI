@@ -1,15 +1,15 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Marca } from './marca.entity';
+import { MARCA } from './marca.entity';
 
 @Injectable()
 export class MarcaService {
   constructor(
     @Inject('MARCA_REPOSITORY')
-    private marcaRepository: Repository<Marca>,
+    private marcaRepository: Repository<MARCA>,
   ) {}
 
-  async listar(): Promise<Marca[]> {
+  async listar(): Promise<MARCA[]> {
     return this.marcaRepository.find();
   }
 
@@ -17,10 +17,10 @@ export class MarcaService {
     
   }
 
-  localizarID(id: string): Promise<Marca> {
+  localizarID(ID: string): Promise<MARCA> {
     return this.marcaRepository.findOne({
       where: {
-        id,
+        ID,
       },
     });
   }
