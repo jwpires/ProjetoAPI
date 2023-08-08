@@ -6,10 +6,10 @@ export const databaseProviders = [
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'mysql',
-        host: 'db4free.net',
+        host: 'localhost',
         port: 3306,
-        username: 'projetoapi',
-        password: 'ProjetoAPI@',
+        username: 'root',
+        password: '',
         database: 'projetoapi',
         entities: [
             __dirname + '/../**/*.entity{.ts,.js}',
