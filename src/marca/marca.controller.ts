@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { MARCA } from "./marca.entity";
 import { MarcaService } from "./marca.service";
 import { CriaMarcaDTO } from "./dto/criaMarca.dto";
-import { RetornoCadastroDTO } from "src/dto/retorno.dto";
+import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";
 
 
 @Controller('/marca')
@@ -26,9 +26,20 @@ export class MarcaController{
         return this.marcaService.localizarID(id);
     }
 
-    @Delete('remove-:id')
-    async removeMarca(@Param('id') id: string): Promise<void>{
-        this.marcaService.remover(id);
+    @Get('')
+    async listaNome(@Param('id') id: string): Promise<any>{
+        return this.marcaService.listaNomes();
     }
+
+    @Delete('remove-:id')
+    async removeMarca(@Param('id') id: string): Promise<RetornoObjDTO>{
+        return this.marcaService.remover(id);
+    }
+
+    @Get('ComForn')
+    async listaMarcaForn(@Param('id') id: string): Promise<any>{
+        return this.marcaService.listaComForn();
+    }
+    
 
 }
