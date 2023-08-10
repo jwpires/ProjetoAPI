@@ -42,7 +42,7 @@ export class MarcaController{
     }
 
     @Get('ComForn')
-    async listaMarcaForn(@Param('id') id: string): Promise<any>{
+    async listaMarcaForn(): Promise<any>{
         return this.marcaService.listaComForn();
     }
     
