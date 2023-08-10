@@ -94,7 +94,7 @@ export class ProdutoService {
           }
 
           if(chave=== 'IDMARCA'){
-            produto[chave] = await this.marcaService.localizarID(valor);
+            produto['MARCA'] = await this.marcaService.localizarID(valor);
             return;
            }
 
