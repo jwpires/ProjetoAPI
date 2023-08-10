@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { MARCA } from "./marca.entity";
 import { MarcaService } from "./marca.service";
 import { CriaMarcaDTO } from "./dto/criaMarca.dto";
@@ -19,6 +19,11 @@ export class MarcaController{
     @Post('')
     async criaMarca(@Body() dados: CriaMarcaDTO): Promise<RetornoCadastroDTO>{        
         return this.marcaService.inserir(dados)        
+    }
+
+    @Put(':id')
+    async alterarMarca(@Body() dados: CriaMarcaDTO,@Param('id') id: string): Promise<RetornoCadastroDTO>{        
+        return this.marcaService.alterar(id,dados)        
     }
     
     @Get('ID-:id')

@@ -84,8 +84,19 @@ export class MarcaService {
     });  
   }
 
-  async alterar(id: string): Promise<RetornoCadastroDTO> {
+  async alterar(id: string, dados: CriaMarcaDTO): Promise<RetornoCadastroDTO> {
     const marca = await this.localizarID(id);
+
+    Object.entries(dados).forEach(
+      ([chave, valor]) => {
+          if(chave=== 'id'){
+              return;
+          }
+
+          marca[chave] = valor;
+      }
+    )
+
     return this.marcaRepository.save(marca)
     .then((result) => {
       return <RetornoCadastroDTO>{
