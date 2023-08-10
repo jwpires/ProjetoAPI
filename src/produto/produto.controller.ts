@@ -36,7 +36,7 @@ export class ProdutoController{
         return this.produtoService.listaNomes();
     }
 
-    @Delete('remove-:id')
+    @Delete(':id')
     async removeProduto(@Param('id') id: string): Promise<RetornoObjDTO>{
         return this.produtoService.remover(id);
     }
