@@ -1,29 +1,19 @@
-export class ProdutoEntity{
-    id: string;
-    nome: string;
-    ativo: boolean;
-    valor: number;
-    estoque: number;
-    medidas: string[] = [];
-    cor: string[] = []; 
-    marca: string;
+import { MARCA } from "src/marca/marca.entity";
+import { PrimaryColumn,Column, ManyToOne, Entity, JoinColumn } from "typeorm";
 
-    constructor(id: string, nome: string, ativo: boolean, valor: number, estoque: number, medidas: string[], cor: string[], marca: string){
-        this.id = id
-        this.nome = nome
-        this.ativo = ativo
-        this.valor = valor
-        this.estoque = estoque
-        this.medidas = medidas
-        this.cor = cor
-        this.marca = marca
-    }
+@Entity()
+export class PRODUTO{
+    @PrimaryColumn()
+    ID: string;
 
-    adicionaEstoque(qtde:number){
-        this.estoque = this.estoque + qtde
-    }
+    @Column()
+    NOME: string;
 
-    removeEstoque(qtde:number){
-        this.estoque = this.estoque - qtde
-    }
+    @Column()
+    PRECO: number;
+
+    @ManyToOne(() => MARCA, marca => marca.produtos)
+    @JoinColumn({ name: 'IDMARCA', referencedColumnName:'ID'})
+    MARCA: MARCA;
+
 }

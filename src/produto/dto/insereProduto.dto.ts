@@ -4,23 +4,11 @@ import { IsArray, IsBoolean, IsInt, IsNotEmpty, IsNumber, IsString } from "class
 export class CriaProdutoDTO{
     @IsString()
     @IsNotEmpty({message: "Nome não pode ser vazio"})
-    nome: string;
-
-    @IsBoolean()
-    ativo: boolean;
+    NOME: string;
 
     @IsNumber()
-    valor: number;
-
-    @IsInt()
-    estoque: number;
-
-    @IsArray()
-    medidas: string[] = [];
-    
-    @IsArray()
-    cor: string[] = []; 
+    VALOR: number;
     
     @IsString()
-    marca: string;
+    IDMARCA: string;
 }

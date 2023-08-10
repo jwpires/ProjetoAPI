@@ -1,8 +1,7 @@
 export class listaProdutoDTO{
     constructor(
-        readonly id:string,
-        readonly nome: string,
-        readonly estoque: number,
-        readonly valor: number
+        readonly ID:string,
+        readonly NOME: string,
+        readonly VALOR: number
     ){}
 }

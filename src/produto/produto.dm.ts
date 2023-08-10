@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { ProdutoEntity } from "./produto.entity";
+import { PRODUTO } from "./produto.entity";
 
 @Injectable()
 export class ProdutosArmazenados{
-    #produtos: ProdutoEntity[] = [];    
+    #produtos: PRODUTO[] = [];    
 
-    AdicionarProduto(produto: ProdutoEntity){
+    AdicionarProduto(produto: PRODUTO){
         this.#produtos.push(produto);
     }
 
@@ -17,7 +17,7 @@ export class ProdutosArmazenados{
 
     private buscaPorID(id: string){
         const possivelProduto = this.#produtos.find(
-            prodSalvo => prodSalvo.id === id
+            prodSalvo => prodSalvo.ID === id
         );
 
         if(!possivelProduto){
@@ -34,7 +34,7 @@ export class ProdutosArmazenados{
 
     async ProdutosByNome(nome: string){
         const produto = this.#produtos.filter(
-            prodSalvo => prodSalvo.nome.includes(nome)
+            prodSalvo => prodSalvo.NOME.includes(nome)
         );
 
         if(!produto){
@@ -45,42 +45,20 @@ export class ProdutosArmazenados{
     }
 
     async ProdutosByMarca(marca: string){
-        const produto = this.#produtos.filter(
-            prodSalvo => prodSalvo.marca.includes(marca)
-        );
+        //const produto = this.#produtos.filter(
+            //prodSalvo => prodSalvo.MARCA.includes(marca)
+        //);
 
-        if(!produto){
-            throw new Error('Produto não encontrado');
-        }
+        //if(!produto){
+          //  throw new Error('Produto não encontrado');
+        //}
 
-        return produto;
+        //return produto;
     }
 
-    async ProdutosByTamanho(tamanho: string){
-        const produto = this.#produtos.filter(
-            prodSalvo => prodSalvo.medidas.includes(tamanho)
-        );
+  
 
-        if(!produto){
-            throw new Error('Produto não encontrado');
-        }
-
-        return produto;
-    }
-
-    async ProdutosByCor(cor: string){
-        const produto = this.#produtos.filter(
-            prodSalvo => prodSalvo.cor.includes(cor)
-        );
-
-        if(!produto){
-            throw new Error('Produto não encontrado');
-        }
-
-        return produto;
-    }
-
-    async atualizaProduto(id: string, dadosAtualizacao: Partial<ProdutoEntity>){
+    async atualizaProduto(id: string, dadosAtualizacao: Partial<PRODUTO>){
         const produto = this.buscaPorID(id);
 
         Object.entries(dadosAtualizacao).forEach(
@@ -99,20 +77,10 @@ export class ProdutosArmazenados{
     async removeProduto(id: string){
         const produto = this.buscaPorID(id);
         this.#produtos = this.#produtos.filter(
-            prodSalvo => prodSalvo.id !== id
+            prodSalvo => prodSalvo.ID !== id
         )
         return produto;
     }
 
-    async abaixaEstoque(id:string, qtde: number){
-        const produto = this.buscaPorID(id);
-        produto.removeEstoque(qtde);
-        return produto;
-    }
-
-    async aumentaEstoque(id:string, qtde: number){
-        const produto = this.buscaPorID(id);
-        produto.adicionaEstoque(qtde);
-        return produto;
-    }
+    
 }

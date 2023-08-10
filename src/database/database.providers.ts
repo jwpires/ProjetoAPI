@@ -6,7 +6,7 @@ export const databaseProviders = [
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'mysql',
-        host: 'projetoapi.ddns.net',
+        host: 'projetoAPI.ddns.net',
         port: 3306,
         username: 'root',
         password: '',
@@ -16,7 +16,7 @@ export const databaseProviders = [
         ],
         synchronize: false,
       });
-
+      
       return dataSource.initialize();
     },
   },

@@ -43,7 +43,7 @@ export class MarcaController{
 
     @Get('ComForn')
     async listaMarcaForn(): Promise<any>{
-        return this.marcaService.listaComForn();
+        return await this.marcaService.listaComForn();
     }
     
 
