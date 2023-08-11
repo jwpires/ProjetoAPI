@@ -4,7 +4,7 @@ import { PRODUTO } from './produto.entity';
 import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto';
 import {v4 as uuid} from 'uuid';
 import { CriaProdutoDTO } from './dto/insereProduto.dto';
-import { listaProdutoDTO } from './dto/listaProduto.dto';
+import { listaProdutoDTO, listaProdutoMarcaDTO } from './dto/listaProduto.dto';
 import { AlteraProdutoDTO } from './dto/atualizaProduto.dto';
 import { MarcaService } from 'src/marca/marca.service';
 import { MARCA } from 'src/marca/marca.entity';
@@ -25,12 +25,35 @@ export class ProdutoService {
     return this.produtoRepository.find();
   }
 
+  async listarMarca(): Promise<listaProdutoMarcaDTO[]> {
+    var resultado = await (this.produtoRepository // select marca.id as ID, marca.nome AS NOME_, pes_f.nome from marca ......
+      .createQueryBuilder('produto')
+      .select('produto.ID', 'ID')
+      .addSelect('produto.NOME','NOME_PRODUTO')
+      .addSelect('produto.PRECO','PRECO_PRODUTO')
+      .addSelect('MA.NOME','MARCA')
+      .leftJoin('marca', 'MA','produto.idmarca = MA.id')                     
+      .getRawMany());  
+
+    const listaRetorno = resultado.map(
+      produto => new listaProdutoMarcaDTO(
+        produto.ID,
+        produto.NOME_PRODUTO,
+        produto.PRECO_PRODUTO,
+        produto.MARCA
+      )
+    );
+
+    return listaRetorno;
+  }
+
+
   async inserir(dados: CriaProdutoDTO): Promise<RetornoCadastroDTO>{
        
     let produto = new PRODUTO();
         produto.ID = uuid();
         produto.NOME = dados.NOME;        
-        produto.MARCA = await this.marcaService.localizarID(dados.IDMARCA);
+        produto.marca = await this.marcaService.localizarID(dados.IDMARCA);
         produto.PRECO = dados.VALOR;
 
     return this.produtoRepository.save(produto)
@@ -65,6 +88,8 @@ export class ProdutoService {
       }
     });
   }
+
+  
 
   async remover(id: string): Promise<RetornoObjDTO> {
     const produto = await this.localizarID(id);

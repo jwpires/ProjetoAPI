@@ -9,7 +9,7 @@ export class MARCA{
     @Column()
     NOME: string;
 
-    @OneToMany(() => PRODUTO, produto => produto.MARCA)
+    @OneToMany(() => PRODUTO, produto => produto.marca)
     produtos: PRODUTO[];
 
 }

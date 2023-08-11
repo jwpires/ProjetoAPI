@@ -56,16 +56,33 @@ export class MarcaService {
     });
   }
 
-  async listaComForn(): Promise<any[]> {
-    var retorno = await (this.marcaRepository
-    .createQueryBuilder('marca')
-    .select('marca.id','ID')
-    .addSelect('marca.nome','nome_marca')
-    .addSelect('pes_f.nome','nome_fornecedor')
-    .leftJoinAndSelect('for_marca', 'fm','fm.idmarca = marca.id')  
-    .leftJoinAndSelect('fornecedor', 'for','for.id = fm.idfornecedor')    
-    .leftJoinAndSelect('pessoa', 'pes_f','for.idpessoa = pes_f.id')     
-    .getRawMany());    
+  async listaComForn(NOME_MARCA?: string): Promise<listaMarcaFornDTO[]> {
+    
+    if (NOME_MARCA != undefined){
+      var retorno = await (this.marcaRepository // select marca.id as ID, marca.nome AS NOME_, pes_f.nome from marca ......
+      .createQueryBuilder('marca')
+      .select('marca.id','ID')
+      .addSelect('marca.nome','nome_marca')
+      .addSelect('pes_f.nome','nome_fornecedor')
+      .leftJoin('for_marca', 'fm','fm.idmarca = marca.id')  
+      .leftJoin('fornecedor', 'for','for.id = fm.idfornecedor')    
+      .leftJoin('pessoa', 'pes_f','for.idpessoa = pes_f.id')  
+      .where('marca.nome like :nomemarca',{ nomemarca: `%${NOME_MARCA}%` })         
+      .getRawMany());  
+    }
+    else{      
+      var retorno = await (this.marcaRepository // select marca.id as ID, marca.nome AS NOME_, pes_f.nome from marca ......
+      .createQueryBuilder('marca')
+      .select('marca.id','ID')
+      .addSelect('marca.nome','nome_marca')
+      .addSelect('pes_f.nome','nome_fornecedor')
+      .leftJoin('for_marca', 'fm','fm.idmarca = marca.id')  
+      .leftJoin('fornecedor', 'for','for.id = fm.idfornecedor')    
+      .leftJoin('pessoa', 'pes_f','for.idpessoa = pes_f.id')  
+      .getRawMany());      
+    }
+
+      
 
     const listaRetorno = retorno.map(
       marca => new listaMarcaFornDTO(

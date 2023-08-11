@@ -14,6 +14,6 @@ export class PRODUTO{
 
     @ManyToOne(() => MARCA, marca => marca.produtos)
     @JoinColumn({ name: 'IDMARCA', referencedColumnName:'ID'})
-    MARCA: MARCA;
+    marca: MARCA;
 
 }

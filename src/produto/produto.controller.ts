@@ -4,6 +4,7 @@ import { CriaProdutoDTO } from "./dto/insereProduto.dto";
 import { PRODUTO } from "./produto.entity";
 import { ProdutoService } from "./produto.service";
 import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";
+import { listaProdutoMarcaDTO } from "./dto/listaProduto.dto";
 
 @Controller('/produtos')
 export class ProdutoController{
@@ -14,6 +15,11 @@ export class ProdutoController{
     @Get('listar')
     async listar(): Promise<PRODUTO[]>{
         return this.produtoService.listar();
+    }
+
+    @Get('listarComMarcas')
+    async listarMarcas(): Promise<listaProdutoMarcaDTO[]>{
+        return this.produtoService.listarMarca();
     }
 
     @Post('')

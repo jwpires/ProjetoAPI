@@ -1,7 +1,7 @@
 export class listaMarcaFornDTO{
     constructor(
-        readonly ID:string,
-        readonly nome_marca: string,
-        readonly nome_fornecedor: string
+        readonly ID_MARCA:string,
+        readonly NOME_MARCA: string,
+        readonly NOME_FORNECEDOR: string
     ){}
 }

@@ -3,6 +3,8 @@ import { MARCA } from "./marca.entity";
 import { MarcaService } from "./marca.service";
 import { CriaMarcaDTO } from "./dto/criaMarca.dto";
 import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";
+import { listaMarcaFornDTO } from "./dto/listaMarcaForn.dto";
+import { PesquisaMarcaDTO } from "./dto/pesquisaMarca.dto";
 
 
 @Controller('/marca')
@@ -41,9 +43,9 @@ export class MarcaController{
         return this.marcaService.remover(id);
     }
 
-    @Get('ComForn')
-    async listaMarcaForn(): Promise<any>{
-        return await this.marcaService.listaComForn();
+    @Get('ComForn/')
+    async listaMarcaForn(@Body() dados: PesquisaMarcaDTO): Promise<listaMarcaFornDTO[]>{
+        return await this.marcaService.listaComForn(dados.NOME);
     }
     
 
