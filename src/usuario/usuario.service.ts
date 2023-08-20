@@ -13,36 +13,12 @@ export class UsuarioService {
   constructor(
     @Inject('USUARIO_REPOSITORY')
     private usuarioRepository: Repository<Usuario>,
-    private readonly pessoaRepository: PessoaService
+    private readonly pessoaService: PessoaService,
+
   ) {}
 
   async listar(): Promise<Usuario[]> {
     return this.usuarioRepository.find();
-  }
-
-  async inserir(dados: CriaUsuarioDTO): Promise<RetornoCadastroDTO>{
-    let usuario = new Usuario();
-        usuario.id= uuid();
-        usuario.idpessoa = await this.pessoaRepository.localizarID(dados.idpessoa)
-        usuario.email = dados.email;
-        usuario.login = dados.login;
-        usuario.senha = dados.senha;
-
-    return this.usuarioRepository.save(usuario)
-    .then((result) => {
-      return <RetornoCadastroDTO>{
-        id: usuario.id,
-        message: "Usuario cadastrada!"
-      };
-    })
-    .catch((error) => {
-      return <RetornoCadastroDTO>{
-        id: "",
-        message: "Houve um erro ao cadastrar." + error.message
-      };
-    })
-
-    
   }
 
   localizarID(id: string): Promise<Usuario> {
@@ -61,44 +37,18 @@ export class UsuarioService {
     });
   }
 
-//   async listaComForn(NOME_MARCA?: string): Promise<listaMarcaFornDTO[]> {
+  async validaEmail(email: string): Promise<any>{
+
+    let possivelUsuario  =  this.usuarioRepository.findOne({
+        where: {
+          email,
+        },
+    });
+
+    let recebe = possivelUsuario;
     
-//     if (NOME_MARCA != undefined){
-//       var retorno = await (this.usuarioRepository // select marca.id as ID, marca.nome AS NOME_, pes_f.nome from marca ......
-//       .createQueryBuilder('marca')
-//       .select('marca.id','ID')
-//       .addSelect('marca.nome','nome_marca')
-//       .addSelect('pes_f.nome','nome_fornecedor')
-//       .leftJoin('for_marca', 'fm','fm.idmarca = marca.id')  
-//       .leftJoin('fornecedor', 'for','for.id = fm.idfornecedor')    
-//       .leftJoin('pessoa', 'pes_f','for.idpessoa = pes_f.id')  
-//       .where('marca.nome like :nomemarca',{ nomemarca: `%${NOME_MARCA}%` })         
-//       .getRawMany());  
-//     }
-//     else{      
-//       var retorno = await (this.usuarioRepository // select marca.id as ID, marca.nome AS NOME_, pes_f.nome from marca ......
-//       .createQueryBuilder('marca')
-//       .select('marca.id','ID')
-//       .addSelect('marca.nome','nome_marca')
-//       .addSelect('pes_f.nome','nome_fornecedor')
-//       .leftJoin('for_marca', 'fm','fm.idmarca = marca.id')  
-//       .leftJoin('fornecedor', 'for','for.id = fm.idfornecedor')    
-//       .leftJoin('pessoa', 'pes_f','for.idpessoa = pes_f.id')  
-//       .getRawMany());      
-//     }
-
-      
-
-//     const listaRetorno = retorno.map(
-//       marca => new listaMarcaFornDTO(
-//         marca.ID,
-//         marca.nome_marca,
-//         marca.nome_fornecedor
-//       )
-//     );
-
-//     return listaRetorno;    
-//   }
+    return possivelUsuario;
+  }
 
   async remover(id: string): Promise<RetornoObjDTO> {
     const usuario = await this.localizarID(id);
@@ -120,6 +70,18 @@ export class UsuarioService {
 
   async alterar(id: string, dados: CriaUsuarioDTO): Promise<RetornoCadastroDTO> {
     const usuario = await this.localizarID(id);
+
+    if (!(await this.pessoaService.localizarID(dados.idpessoa))) {
+      return <RetornoCadastroDTO>{
+        message: "idPessoa não é válido. Alteração não foi realizada."
+      };
+    }
+
+     if ((await this.validaEmail(dados.email))) {
+       return <RetornoCadastroDTO>{
+         message: "Email já pertence a um usuário do sistema."
+       };
+     }
 
     Object.entries(dados).forEach(
       ([chave, valor]) => {
@@ -146,19 +108,42 @@ export class UsuarioService {
     });
   }
 
-  async validaEmail(email: string){
-    // const possivelUsuario = this.usuarioRepository.find(
-    //     usuario => usuario.email === email  
-    // );
-    // return (possivelUsuario !== undefined);
+  async inserir(dados: CriaUsuarioDTO): Promise<RetornoCadastroDTO>{
 
-    let possivelUsuario  = await this.usuarioRepository.findOne({
-        where: {
-          email,
-        },
-      });
+    if (!(await this.pessoaService.localizarID(dados.idpessoa))) {
+      return <RetornoCadastroDTO>{
+        message: "idPessoa não é válido. Cadastro não foi realizado."
+      };
+    }
 
-    return (possivelUsuario !== undefined)
+    if ((await this.validaEmail(dados.email))) {
+      return <RetornoCadastroDTO>{
+        message: "Email já vinculado a um usuário do sistema."
+      };
+    }
+
+    let usuario = new Usuario();
+        usuario.id= uuid();
+        usuario.idpessoa = await this.pessoaService.localizarID(dados.idpessoa)
+        usuario.email = dados.email;
+        usuario.login = dados.login;
+        usuario.senha = dados.senha;
+
+    return this.usuarioRepository.save(usuario)
+    .then((result) => {
+      return <RetornoCadastroDTO>{
+        id: usuario.id,
+        message: "Usuario cadastrada!"
+      };
+    })
+    .catch((error) => {
+      return <RetornoCadastroDTO>{
+        id: "",
+        message: "Houve um erro ao cadastrar." + error.message
+      };
+    })
+
+    
   }
 
 }

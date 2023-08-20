@@ -18,12 +18,12 @@ export class UsuarioController{
     }
 
     @Post('')
-    async criaMarca(@Body() dados: CriaUsuarioDTO): Promise<RetornoCadastroDTO>{        
+    async criaUsuario(@Body() dados: CriaUsuarioDTO): Promise<RetornoCadastroDTO>{        
         return this.usuarioService.inserir(dados)        
     }
 
     @Put(':id')
-    async alterarMarca(@Body() dados: CriaUsuarioDTO,@Param('id') id: string): Promise<RetornoCadastroDTO>{        
+    async alterarUsuario(@Body() dados: CriaUsuarioDTO,@Param('id') id: string): Promise<RetornoCadastroDTO>{        
         return this.usuarioService.alterar(id,dados)        
     }
     
@@ -38,14 +38,9 @@ export class UsuarioController{
     }
 
     @Delete('remove-:id')
-    async removeMarca(@Param('id') id: string): Promise<RetornoObjDTO>{
+    async removeUsuario(@Param('id') id: string): Promise<RetornoObjDTO>{
         return this.usuarioService.remover(id);
     }
-
-    // @Get('ComForn/')
-    // async listaMarcaForn(@Body() dados: PesquisaMarcaDTO): Promise<listaMarcaFornDTO[]>{
-    //     return await this.usuarioService.listaComForn(dados.NOME);
-    // }
-    
+  
 
 }

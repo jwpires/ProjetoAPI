@@ -8,7 +8,7 @@ export class CriaUsuarioDTO{
     idpessoa: string;
 
     @IsEmail(undefined,{message: "Email inválido"})
-    @EmailUnico({message:"Já existe usuário com esse email"})
+    // @EmailUnico({message:"Já existe usuário com esse email"})
     email:string;
 
     @IsString()
